@@ -37,7 +37,7 @@ class GpsLocalOdom(Node):
         o=Odometry()
         o.header=msg.header
         o.header.frame_id='map'
-        o.child_frame_id='phone_gps_link'
+        o.child_frame_id='phone_imu_link'
         o.pose.pose.position.x=x
         o.pose.pose.position.y=y
         o.pose.pose.orientation.w=1.0
