@@ -1,0 +1,19 @@
+# Experimental phone-only pose fusion. NOT a Nav2 localization replacement.
+# Use only after axes, units, frame mounts and phone orientation are validated.
+ekf_phone:
+  ros__parameters:
+    frequency: 10.0
+    sensor_timeout: 1.0
+    two_d_mode: true
+    publish_tf: false
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: phone_imu_link
+    world_frame: map
+    odom0: /odometry/phone_gps
+    odom0_config: [true,true,false, false,false,false, false,false,false, false,false,false, false,false,false]
+    odom0_differential: false
+    imu0: /imu/data
+    imu0_config: [false,false,false, false,false,true, false,false,false, false,false,true, false,false,false]
+    imu0_remove_gravitational_acceleration: false
+    print_diagnostics: true
