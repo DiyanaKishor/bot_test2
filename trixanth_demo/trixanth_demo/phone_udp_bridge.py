@@ -54,6 +54,12 @@ class PhoneUdpBridge(Node):
                     self.handle_normalized_imu(data)
                 elif kind == 'gps':
                     self.handle_gps(data)
+                elif kind == 'android.gps':
+                    self.handle_gps({'lat': data['latitude'], 'lon': data['longitude'],
+                                     'alt': data.get('altitude', 0),
+                                     'horizontal_accuracy_m': data.get('accuracy', 15),
+                                     'vertical_accuracy_m': data.get('verticalAccuracyMeters'),
+                                     'valid': True})
                 elif kind == 'android.sensor.accelerometer':
                     self.accel = (self.triple(data['values']), time.monotonic())
                 elif kind == 'android.sensor.gyroscope':
@@ -131,7 +137,14 @@ class PhoneUdpBridge(Node):
         m.latitude = lat
         m.longitude = lon
         m.altitude = alt
-        m.position_covariance = [acc*acc,0,0, 0,acc*acc,0, 0,0,max(4*acc*acc,25)]
+        vertical_acc = d.get('vertical_accuracy_m')
+        try:
+            vacc = float(vertical_acc) if vertical_acc is not None else max(2*acc, 5)
+        except (ValueError, TypeError):
+            vacc = max(2*acc, 5)
+        if not math.isfinite(vacc) or vacc <= 0:
+            vacc = max(2*acc, 5)
+        m.position_covariance = [acc*acc,0,0, 0,acc*acc,0, 0,0,vacc*vacc]
         m.position_covariance_type = NavSatFix.COVARIANCE_TYPE_DIAGONAL_KNOWN
         self.gps_pub.publish(m)
 
