@@ -1,0 +1,19 @@
+# Fill in after checking devices at college. No guessed pin assignments.
+hardware:
+  motor_backend: disabled
+  motor_driver: cytron_mdd10a
+  motor_pwm_gpio: null
+  motor_dir_gpio: null
+  motor_battery_voltage: null
+  motor_stall_current_a: null
+  controller_transport: undecided  # pi_gpio | teensy_serial
+  teensy_port: null
+  depth_camera_model: unknown
+  point_cloud_topic: /camera/depth/points
+  point_cloud_frame: unknown
+  flysky_receiver_model: unknown
+  flysky_protocol: unknown
+  flysky_transport: unknown
+  independent_motor_power_stop_verified: false
+  imu_source: galaxy_m36_udp
+  gps_source: galaxy_m36_udp
