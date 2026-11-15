@@ -12,4 +12,5 @@ setup(name=package_name,version='0.2.0',packages=[package_name],
  'phone_packet_inspector=trixanth_demo.phone_packet_inspector:main',
  'pointcloud_guard=trixanth_demo.pointcloud_guard:main',
  'preflight_status=trixanth_demo.preflight_status:main',
+ 'gps_local_odom=trixanth_demo.gps_local_odom:main',
  'dry_run_motor=trixanth_demo.dry_run_motor:main']})
