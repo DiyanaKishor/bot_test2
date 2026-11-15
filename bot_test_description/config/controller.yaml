@@ -1,0 +1,22 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    diff_drive_controller:
+      type: diff_drive_controller/DiffDriveController
+
+diff_drive_controller:
+  ros__parameters:
+    left_wheel_names: ['wheel_lft_ft_joint', 'wheel_lft_rr_joint']
+    right_wheel_names: ['wheel_rt_ft_joint', 'wheel_rt_rr_joint']
+    wheel_separation: 0.225   # <-- REPLACE, y of the joint originsof left and rt wheel origins
+    wheel_radius: 0.05
+    use_stamped_vel: true
+    publish_rate: 50.0
+    odom_frame_id: odom
+    base_frame_id: base_link
+    enable_odom_tf: false
+    wheel_separation_multiplier: 1.5 # this determines the turning radius of the robot, if the robot turns too much or too little, adjust this value (raw imu/ekf)

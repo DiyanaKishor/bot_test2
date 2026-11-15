@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="bot_test">
+  <!-- ros2_control hardware interface -->
+
+<gazebo>
+  <plugin
+      filename="gz_ros2_control-system"
+      name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+
+    <parameters>
+      $(find bot_test_description)/config/controller.yaml
+    </parameters>
+    
+  </plugin>
+</gazebo>
+
+
+</robot>

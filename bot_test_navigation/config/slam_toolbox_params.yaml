@@ -1,0 +1,98 @@
+#slam_toolbox:
+#  ros__parameters:
+#    use_sim_time: true
+#    odom_frame: odom
+#    map_frame: map
+#    base_frame: base_link
+#    scan_topic: /scan
+#    mode: mapping
+#    resolution: 0.05  #Not realted to lidar, its the map grid scale in meters
+#    max_laser_range: 30.0 #must match the max range inthe lidar plugin
+#    minimum_travel_distance: 0.2
+#    minimum_travel_heading: 0.2
+#    transform_publish_period: 0.02
+
+slam_toolbox:
+  ros__parameters:
+
+    # Solver
+    solver_plugin: solver_plugins::CeresSolver
+    ceres_linear_solver: SPARSE_NORMAL_CHOLESKY
+    ceres_preconditioner: SCHUR_JACOBI
+    ceres_trust_strategy: LEVENBERG_MARQUARDT
+    ceres_dogleg_type: TRADITIONAL_DOGLEG
+    ceres_loss_function: None
+
+    # Frames
+    odom_frame: odom
+    map_frame: map
+    base_frame: base_link
+
+    # Topics
+    scan_topic: /scan
+
+    # Mode
+    mode: mapping # or localization
+
+    #If u like to immeditly stsrt continuing mapping frim the map that u created from SLAM thn change the mode to localization 
+    #and provide the map file path in the launch file. The map file path is provided in the launch file as a launch argument.
+    # or 
+    #map_file: /home/diyana_kishor/ros2_ws/src/bot_test/bot_test_navigation/maps/test_map_serial # path to the map file for localization mode
+    #map_start_pose: [0.0, 0.0, 0.0] # [x, y, yaw] in meters and radians
+    #map_start_at_dock: true #to start it from its inisial pose whn it was launched
+
+
+
+    # Timing
+    use_sim_time: true
+    transform_publish_period: 0.02
+    map_update_interval: 2.0
+
+    # Resolution
+    resolution: 0.05
+
+    # Map limits
+    max_laser_range: 12.0
+    minimum_time_interval: 0.5
+
+    # Scan processing
+    throttle_scans: 1
+    transform_timeout: 0.2
+    tf_buffer_duration: 30.0
+
+    # Loop closure
+    use_scan_matching: true
+    use_scan_barycenter: true
+    do_loop_closing: true
+
+    # Scan matcher
+    minimum_travel_distance: 0.20
+    minimum_travel_heading: 0.20
+    scan_buffer_size: 20
+    scan_buffer_maximum_scan_distance: 10.0
+
+    # Correlation search
+    correlation_search_space_dimension: 0.5
+    correlation_search_space_resolution: 0.01
+    correlation_search_space_smear_deviation: 0.1
+
+    # Loop closure search
+    loop_search_space_dimension: 8.0
+    loop_search_space_resolution: 0.05
+    loop_search_space_smear_deviation: 0.03
+
+    # Scan matching penalties
+    distance_variance_penalty: 0.5
+    angle_variance_penalty: 1.0
+
+    fine_search_angle_offset: 0.00349
+    coarse_search_angle_offset: 0.349
+    coarse_angle_resolution: 0.0349
+
+    minimum_angle_penalty: 0.9
+    minimum_distance_penalty: 0.5
+
+    use_response_expansion: true
+
+    # Interactive mode
+    enable_interactive_mode: true

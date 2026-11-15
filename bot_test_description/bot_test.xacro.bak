@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="bot_test">
+  <link name="base_link">
+    <inertial>
+      <origin xyz="1.14059e-11 0.00118376 0.000591882" rpy="0 0 0" />
+      <mass value="11.5764" />
+      <inertia ixx="0.0916575" iyy="0.043845" izz="0.125619" ixy="-1.14339e-11" iyz="-0.000608556" ixz="-5.86363e-12" />
+    </inertial>
+    <visual name="base_link_visual">
+      <origin xyz="0 0 0" rpy="1.0225850030033296e-15 -1.6479873021779682e-16 7.771561172376064e-16" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/base_link.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+    <collision name="base_link_collision">
+      <origin xyz="0 0 0" rpy="1.0225850030033296e-15 -1.6479873021779682e-16 7.771561172376064e-16" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/base_link.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="wheel_lft_ft">
+    <inertial>
+      <origin xyz="0 -1.88184e-11 -9.36643e-19" rpy="0 0 0" />
+      <mass value="0.188402" />
+      <inertia ixx="0.000244754" iyy="0.000128657" izz="0.000128657" ixy="2.41261e-22" iyz="4.41163e-21" ixz="-5.52531e-22" />
+    </inertial>
+    <visual name="wheel_lft_ft_visual">
+      <origin xyz="-4.14748711818902e-09 4.785682667929336e-09 1.2370309665499235e-09" rpy="3.1415926535897927 -1.5707963267948963 0" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/wheel_lft_ft.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+    <collision name="wheel_lft_ft_collision">
+      <origin xyz="-4.14748711818902e-09 4.785682667929336e-09 1.2370309665499235e-09" rpy="3.1415926535897927 -1.5707963267948963 0" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/wheel_lft_ft.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="wheel_lft_rr">
+    <inertial>
+      <origin xyz="0 -1.88184e-11 -9.36643e-19" rpy="0 0 0" />
+      <mass value="0.188402" />
+      <inertia ixx="0.000244754" iyy="0.000128657" izz="0.000128657" ixy="2.41261e-22" iyz="4.41163e-21" ixz="-5.52531e-22" />
+    </inertial>
+    <visual name="wheel_lft_rr_visual">
+      <origin xyz="-4.147487260297567e-09 4.78568146888847e-09 1.237031215239881e-09" rpy="3.1415926535897927 -1.5707963267948963 0" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/wheel_lft_rr.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+    <collision name="wheel_lft_rr_collision">
+      <origin xyz="-4.147487260297567e-09 4.78568146888847e-09 1.237031215239881e-09" rpy="3.1415926535897927 -1.5707963267948963 0" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/wheel_lft_rr.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="wheel_rt_ft">
+    <inertial>
+      <origin xyz="0 -1.88184e-11 -9.36643e-19" rpy="0 0 0" />
+      <mass value="0.188402" />
+      <inertia ixx="0.000244754" iyy="0.000128657" izz="0.000128657" ixy="2.41261e-22" iyz="4.41163e-21" ixz="-5.52531e-22" />
+    </inertial>
+    <visual name="wheel_rt_ft_visual">
+      <origin xyz="-4.147487047134746e-09 4.785682348185106e-09 1.2370300694897196e-09" rpy="3.1415926535897927 -1.5707963267948963 0" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/wheel_rt_ft.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+    <collision name="wheel_rt_ft_collision">
+      <origin xyz="-4.147487047134746e-09 4.785682348185106e-09 1.2370300694897196e-09" rpy="3.1415926535897927 -1.5707963267948963 0" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/wheel_rt_ft.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="wheel_rt_rr">
+    <inertial>
+      <origin xyz="-4.14748722477043e-09 4.785724918576762e-09 1.2370302826525404e-09" rpy="-5.473822126268817e-48 2.189528850507527e-47 0.0" />
+      <mass value="1.1837521118726322" />
+      <inertia ixx="0.0008088972763666822" iyy="0.0008088972766851358" izz="0.0015388777455936434" ixy="3.98817148697887e-35" iyz="6.9388939039072276e-18" ixz="1.3877787807814455e-17" />
+    </inertial>
+    <visual name="wheel_rt_rr_visual">
+      <origin xyz="-4.147487242533998e-09 4.7856813623070595e-09 1.2370302826525404e-09" rpy="3.141592653589793 -1.5707963267948963 0" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/wheel_rt_rr.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+    <collision name="wheel_rt_rr_collision">
+      <origin xyz="-4.147487242533998e-09 4.7856813623070595e-09 1.2370302826525404e-09" rpy="3.141592653589793 -1.5707963267948963 0" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/wheel_rt_rr.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="lidar">
+    <inertial>
+      <origin xyz="1.237030495815361e-09 -4.785682486962984e-09 0.009999995852512456" rpy="0.0 -0.0 -5.473822126268817e-48" />
+      <mass value="0.4439070419522376" />
+      <inertia ixx="0.00011467598583765962" iyy="0.00011467598583766306" izz="0.00019975816887850614" ixy="1.0842021724855043e-19" iyz="-5.653962624688097e-36" ixz="3.4694469519536138e-18" />
+    </inertial>
+    <visual name="lidar_visual">
+      <origin xyz="1.237030495815361e-09 -4.785682486962984e-09 0.009999995852512456" rpy="-3.533407381908745e-16 3.944304526105059e-31 1.0269562977782668e-15" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/lidar.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </visual>
+    <collision name="lidar_collision">
+      <origin xyz="1.237030495815361e-09 -4.785682486962984e-09 0.009999995852512456" rpy="-3.533407381908745e-16 3.944304526105059e-31 1.0269562977782668e-15" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/lidar.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="wheel_lft_ft" type="continuous">
+    <origin xyz="-0.1125000012370308 0.07000000478568248 4.147487064898314e-09" rpy="3.1415926535897927 -1.5707963267948954 0" />
+    <parent link="base_link" />
+    <child link="wheel_lft_ft" />
+    <axis xyz="-1.9721522630525295e-31 -2.9025886025726983e-32 1.0" />
+  </joint>
+  <joint name="wheel_lft_rr" type="continuous">
+    <origin xyz="-0.11250000123703104 -0.0699999952143184 4.147487207006861e-09" rpy="3.1415926535897927 -1.5707963267948954 0" />
+    <parent link="base_link" />
+    <child link="wheel_lft_rr" />
+    <axis xyz="-1.9721522630525295e-31 -2.9025886025726983e-32 1.0" />
+  </joint>
+  <joint name="wheel_rt_ft" type="continuous">
+    <origin xyz="0.11249999876296993 0.0700000047856823 4.147487029371177e-09" rpy="3.1415926535897927 -1.5707963267948954 0" />
+    <parent link="base_link" />
+    <child link="wheel_rt_ft" />
+    <axis xyz="-1.9721522630525295e-31 -2.9025886025726983e-32 1.0" />
+  </joint>
+  <joint name="wheel_rt_rr" type="continuous">
+    <origin xyz="0.11249999876296968 -0.06999999521431859 4.1474871714797245e-09" rpy="3.1415926535897927 -1.5707963267948954 0" />
+    <parent link="base_link" />
+    <child link="wheel_rt_rr" />
+    <axis xyz="-1.9721522630525295e-31 -2.9025886025726983e-32 1.0" />
+  </joint>
+  <joint name="lidar_joint" type="continuous">
+    <origin xyz="-1.2370304602882243e-09 0.0900000047856825 0.05500000414748751" rpy="-1.0225850030033268e-15 1.647987302177971e-16 -7.771561172376091e-16" />
+    <parent link="base_link" />
+    <child link="lidar" />
+    <axis xyz="0.0 0.0 0.9999999999999999" />
+  </joint>
+  <!-- ros2_control hardware interface -->
+  <ros2_control name="bot_test_system" type="system">
+    <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+    </hardware>
+    <joint name="wheel_lft_ft">
+      <command_interface name="velocity">
+        <param name="min">-10</param>
+        <param name="max">10</param>
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+    </joint>
+    <joint name="wheel_lft_rr">
+      <command_interface name="velocity">
+        <param name="min">-10</param>
+        <param name="max">10</param>
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+    </joint>
+    <joint name="wheel_rt_ft">
+      <command_interface name="velocity">
+        <param name="min">-10</param>
+        <param name="max">10</param>
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+    </joint>
+    <joint name="wheel_rt_rr">
+      <command_interface name="velocity">
+        <param name="min">-10</param>
+        <param name="max">10</param>
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+    </joint>
+    <joint name="lidar_joint">
+      <command_interface name="velocity">
+        <param name="min">-10</param>
+        <param name="max">10</param>
+      </command_interface>
+      <state_interface name="velocity" />
+    </joint>
+  </ros2_control>
+
+</robot>
+
+<!-- Sanity check-->
+ <!--   cd ~/ros2_ws/src/bot_test/bot_test_description
+        ?{:jmikdcxv ujmik,ljuhyngtb rfvedcwsxz' -->

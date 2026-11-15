@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>bot_test Teleop</title>
+  <script src="https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/nipplejs@0.10.1/dist/nipplejs.min.js"></script>
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at top, #10162b 0%, #05070f 65%);
+      color: #eaf2ff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      overflow: hidden;
+      position: fixed;
+      inset: 0;
+    }
+
+    #app {
+      width: 100vw;
+      height: 100dvh;
+      height: 100vh;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5vh 2vw;
+      gap: 1.5vw;
+    }
+
+    .padCol {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .padWrap {
+      width: clamp(130px, 40vh, 220px);
+      height: clamp(130px, 40vh, 220px);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #171f38, #0a0e1c 70%);
+      border: 1px solid #232b47;
+      position: relative;
+    }
+    .padLabel {
+      margin-top: 6px;
+      font-size: clamp(10px, 1.4vh, 12px);
+      letter-spacing: 1.5px;
+      color: #4a5678;
+      font-weight: 700;
+    }
+    #padsRow.disabled .padWrap { opacity: 0.25; pointer-events: none; }
+
+    #center {
+      flex: 1;
+      min-width: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1vh;
+      max-width: 300px;
+    }
+
+    #header .title {
+      font-size: clamp(14px, 2.2vh, 18px);
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #35c3ff;
+      text-shadow: 0 0 18px rgba(53, 195, 255, 0.45);
+      text-align: center;
+    }
+
+    #statusRow {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: clamp(9px, 1.2vh, 11px);
+      color: #7a879f;
+    }
+    #connDot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #e0454a;
+      box-shadow: 0 0 8px rgba(224, 69, 74, 0.8);
+      flex-shrink: 0;
+    }
+    #connDot.connected {
+      background: #33e08a;
+      box-shadow: 0 0 8px rgba(51, 224, 138, 0.8);
+    }
+
+    #modeSwitch {
+      display: flex;
+      background: #12182c;
+      border: 1px solid #232b47;
+      border-radius: 30px;
+      padding: 3px;
+      width: min(200px, 55vw);
+    }
+    .modeBtn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: #6f7c9c;
+      font-size: clamp(10px, 1.4vh, 12px);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 7px 0;
+      border-radius: 24px;
+    }
+    .modeBtn.active {
+      background: linear-gradient(180deg, #35c3ff, #1a8fd1);
+      color: #04121c;
+      box-shadow: 0 0 16px rgba(53, 195, 255, 0.5);
+    }
+
+    #estopBtn {
+      width: 100%;
+      border: 1px solid #4a1418;
+      background: linear-gradient(180deg, #7a1c22, #4a1114);
+      color: #ff8a8f;
+      font-size: clamp(11px, 1.5vh, 13px);
+      font-weight: 800;
+      letter-spacing: 2px;
+      padding: clamp(6px, 1.2vh, 9px) 0;
+      border-radius: 10px;
+    }
+    #estopBtn.active {
+      background: linear-gradient(180deg, #ff3b42, #b8181f);
+      color: #fff;
+      box-shadow: 0 0 18px rgba(255, 59, 66, 0.6);
+    }
+
+    #dashboard {
+      width: 100%;
+      background: #0c1122;
+      border: 1px solid #1c2440;
+      border-radius: 16px;
+      padding: 1.2vh 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+    }
+    #settingsBtn {
+      position: absolute;
+      top: 7px;
+      right: 9px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1px solid #232b47;
+      background: #12182c;
+      color: #6f7c9c;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #gaugeTrack {
+      width: 10px;
+      height: 6.5vh;
+      max-height: 56px;
+      background: #161c33;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    #gaugeFill {
+      position: absolute;
+      bottom: 50%;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(180deg, #35c3ff, #1a8fd1);
+      border-radius: 8px;
+      transition: height 0.05s linear, bottom 0.05s linear;
+    }
+    #readout { flex: 1; text-align: center; }
+    #speedValue {
+      font-size: clamp(20px, 4vh, 30px);
+      font-weight: 800;
+      color: #35c3ff;
+      text-shadow: 0 0 20px rgba(53, 195, 255, 0.5);
+      line-height: 1;
+    }
+    #speedUnit {
+      font-size: clamp(8px, 1.1vh, 9px);
+      letter-spacing: 2px;
+      color: #6f7c9c;
+      margin-top: 3px;
+      font-weight: 600;
+    }
+    #turnValue {
+      font-size: clamp(9px, 1.2vh, 11px);
+      color: #4a5678;
+      margin-top: 4px;
+    }
+
+    #speedLimitRow {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: clamp(9px, 1.2vh, 11px);
+      color: #6f7c9c;
+    }
+    #speedLimitRow input[type=range] {
+      flex: 1;
+      accent-color: #35c3ff;
+      height: 4px;
+    }
+    #speedLimitLabel { min-width: 34px; text-align: right; color: #35c3ff; font-weight: 700; }
+
+    #auxRow {
+      width: 100%;
+      display: flex;
+      gap: 8px;
+    }
+    .auxBtn {
+      flex: 1;
+      border: 1px solid #232b47;
+      background: #12182c;
+      color: #6f7c9c;
+      font-size: clamp(9px, 1.2vh, 11px);
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: clamp(6px, 1.1vh, 8px) 0;
+      border-radius: 8px;
+    }
+    .auxBtn.active {
+      background: linear-gradient(180deg, #35c3ff, #1a8fd1);
+      color: #04121c;
+      border-color: transparent;
+    }
+
+    #autopilotBanner {
+      display: none;
+      text-align: center;
+      color: #4a5678;
+      font-size: clamp(10px, 1.3vh, 12px);
+      line-height: 1.4;
+    }
+    #autopilotBanner b { color: #35c3ff; }
+  </style>
+</head>
+<body>
+  <div id="app">
+
+    <div class="padCol">
+      <div class="padWrap" id="leftPad"></div>
+      <div class="padLabel">THROTTLE</div>
+    </div>
+
+    <div id="center">
+      <div id="header"><div class="title">JOYSTICK</div></div>
+
+      <div id="statusRow">
+        <div id="connDot"></div>
+        <span id="connLabel">disconnected</span>
+      </div>
+
+      <div id="modeSwitch">
+        <button id="manualBtn" class="modeBtn active">MANUAL</button>
+        <button id="autoBtn" class="modeBtn">AUTOPILOT</button>
+      </div>
+
+      <button id="estopBtn">E-STOP</button>
+
+      <div id="dashboard">
+        <button id="settingsBtn">&#9881;</button>
+        <div id="gaugeTrack"><div id="gaugeFill" style="height:0%"></div></div>
+        <div id="readout">
+          <div id="speedValue">0</div>
+          <div id="speedUnit">CM / S</div>
+          <div id="turnValue">turn 0.00 rad/s</div>
+        </div>
+      </div>
+
+      <div id="speedLimitRow">
+        <span>LIMIT</span>
+        <input type="range" id="speedLimitSlider" min="20" max="100" value="100" step="5">
+        <span id="speedLimitLabel">100%</span>
+      </div>
+
+      <div id="auxRow">
+        <button class="auxBtn" id="aux1Btn">AUX 1</button>
+        <button class="auxBtn" id="aux2Btn">AUX 2</button>
+      </div>
+
+      <div id="autopilotBanner">Autopilot active — <b>Nav2</b> is driving.<br>Switch to Manual to take over.</div>
+    </div>
+
+    <div class="padCol" id="padsRow">
+      <div class="padWrap" id="rightPad"></div>
+      <div class="padLabel">STEER</div>
+    </div>
+
+  </div>
+
+  <script>
+    const DEFAULT_URL = 'ws://10.165.120.11:9090';
+    const TELEOP_TOPIC = '/cmd_vel_teleop';
+    const AUX1_TOPIC = '/aux/button_1';
+    const AUX2_TOPIC = '/aux/button_2';
+    const BASE_MAX_LINEAR = 1.0;
+    const BASE_MAX_ANGULAR = 1.0;
+    const PUBLISH_RATE_HZ = 10;
+
+    let bridgeUrl = localStorage.getItem('bridgeUrl') || DEFAULT_URL;
+    let speedLimitPct = 100;
+
+    const connDot = document.getElementById('connDot');
+    const connLabel = document.getElementById('connLabel');
+    let ros, cmdVelTopic, aux1Topic, aux2Topic;
+
+    function connect(url) {
+      if (ros) { try { ros.close(); } catch (e) {} }
+      ros = new ROSLIB.Ros({ url: url });
+      ros.on('connection', () => {
+        connDot.classList.add('connected');
+        connLabel.textContent = 'connected';
+      });
+      ros.on('close', () => {
+        connDot.classList.remove('connected');
+        connLabel.textContent = 'disconnected';
+      });
+      ros.on('error', () => {
+        connDot.classList.remove('connected');
+        connLabel.textContent = 'error';
+      });
+      cmdVelTopic = new ROSLIB.Topic({ ros: ros, name: TELEOP_TOPIC, messageType: 'geometry_msgs/msg/Twist' });
+      aux1Topic = new ROSLIB.Topic({ ros: ros, name: AUX1_TOPIC, messageType: 'std_msgs/msg/Bool' });
+      aux2Topic = new ROSLIB.Topic({ ros: ros, name: AUX2_TOPIC, messageType: 'std_msgs/msg/Bool' });
+    }
+    connect(bridgeUrl);
+
+    document.getElementById('settingsBtn').addEventListener('click', () => {
+      const input = prompt('Rosbridge WebSocket URL', bridgeUrl);
+      if (input && input.trim()) {
+        bridgeUrl = input.trim();
+        localStorage.setItem('bridgeUrl', bridgeUrl);
+        connect(bridgeUrl);
+      }
+    });
+
+    let mode = 'manual';
+    let estop = false;
+    let currentLinear = 0;
+    let currentAngular = 0;
+
+    const manualBtn = document.getElementById('manualBtn');
+    const autoBtn = document.getElementById('autoBtn');
+    const padsRow = document.getElementById('padsRow');
+    const autopilotBanner = document.getElementById('autopilotBanner');
+    const speedValue = document.getElementById('speedValue');
+    const turnValue = document.getElementById('turnValue');
+    const gaugeFill = document.getElementById('gaugeFill');
+    const estopBtn = document.getElementById('estopBtn');
+    const speedLimitSlider = document.getElementById('speedLimitSlider');
+    const speedLimitLabel = document.getElementById('speedLimitLabel');
+
+    function setMode(newMode) {
+      mode = newMode;
+      currentLinear = 0;
+      currentAngular = 0;
+      updateReadout();
+      if (mode === 'manual') {
+        manualBtn.classList.add('active');
+        autoBtn.classList.remove('active');
+        padsRow.classList.remove('disabled');
+        autopilotBanner.style.display = 'none';
+      } else {
+        manualBtn.classList.remove('active');
+        autoBtn.classList.add('active');
+        padsRow.classList.add('disabled');
+        autopilotBanner.style.display = 'block';
+      }
+    }
+    manualBtn.addEventListener('click', () => { if (!estop) setMode('manual'); });
+    autoBtn.addEventListener('click', () => { if (!estop) setMode('autopilot'); });
+
+    estopBtn.addEventListener('click', () => {
+      estop = !estop;
+      currentLinear = 0;
+      currentAngular = 0;
+      updateReadout();
+      if (estop) {
+        estopBtn.classList.add('active');
+        estopBtn.textContent = 'RELEASE E-STOP';
+        padsRow.classList.add('disabled');
+      } else {
+        estopBtn.classList.remove('active');
+        estopBtn.textContent = 'E-STOP';
+        if (mode === 'manual') padsRow.classList.remove('disabled');
+      }
+    });
+
+    speedLimitSlider.addEventListener('input', () => {
+      speedLimitPct = parseInt(speedLimitSlider.value, 10);
+      speedLimitLabel.textContent = speedLimitPct + '%';
+    });
+
+    let aux1Active = false, aux2Active = false;
+    document.getElementById('aux1Btn').addEventListener('click', () => {
+      aux1Active = !aux1Active;
+      document.getElementById('aux1Btn').classList.toggle('active', aux1Active);
+      if (aux1Topic) aux1Topic.publish(new ROSLIB.Message({ data: aux1Active }));
+    });
+    document.getElementById('aux2Btn').addEventListener('click', () => {
+      aux2Active = !aux2Active;
+      document.getElementById('aux2Btn').classList.toggle('active', aux2Active);
+      if (aux2Topic) aux2Topic.publish(new ROSLIB.Message({ data: aux2Active }));
+    });
+
+    function maxLinear() { return BASE_MAX_LINEAR * (speedLimitPct / 100); }
+    function maxAngular() { return BASE_MAX_ANGULAR * (speedLimitPct / 100); }
+
+    function updateReadout() {
+      const speedCms = Math.round(currentLinear * 100);
+      speedValue.textContent = Math.abs(speedCms);
+      turnValue.textContent = 'turn ' + currentAngular.toFixed(2) + ' rad/s';
+      const pct = Math.min(Math.abs(currentLinear) / BASE_MAX_LINEAR, 1) * 50;
+      if (currentLinear >= 0) {
+        gaugeFill.style.bottom = '50%';
+        gaugeFill.style.height = pct + '%';
+      } else {
+        gaugeFill.style.bottom = (50 - pct) + '%';
+        gaugeFill.style.height = pct + '%';
+      }
+    }
+
+    const leftPad = nipplejs.create({
+      zone: document.getElementById('leftPad'),
+      mode: 'static',
+      position: { left: '50%', top: '50%' },
+      color: '#35c3ff',
+      size: 110,
+      restJoystick: true
+    });
+    leftPad.on('move', (evt, data) => {
+      if (mode !== 'manual' || estop) return;
+      const val = Math.min(data.distance / 45, 1);
+      const dir = Math.sin(data.angle.radian) >= 0 ? 1 : -1;
+      currentLinear = dir * val * maxLinear();
+      updateReadout();
+    });
+    leftPad.on('end', () => { currentLinear = 0; updateReadout(); });
+
+    const rightPad = nipplejs.create({
+      zone: document.getElementById('rightPad'),
+      mode: 'static',
+      position: { left: '50%', top: '50%' },
+      color: '#35c3ff',
+      size: 110,
+      restJoystick: true
+    });
+    rightPad.on('move', (evt, data) => {
+      if (mode !== 'manual' || estop) return;
+      const val = Math.min(data.distance / 45, 1);
+      const dir = Math.cos(data.angle.radian) >= 0 ? -1 : 1;
+      currentAngular = dir * val * maxAngular();
+      updateReadout();
+    });
+    rightPad.on('end', () => { currentAngular = 0; updateReadout(); });
+
+    setInterval(() => {
+      if (!cmdVelTopic || !ros.isConnected) return;
+      if (estop) {
+        cmdVelTopic.publish(new ROSLIB.Message({
+          linear: { x: 0, y: 0, z: 0 }, angular: { x: 0, y: 0, z: 0 }
+        }));
+        return;
+      }
+      if (mode !== 'manual') return;
+      cmdVelTopic.publish(new ROSLIB.Message({
+        linear: { x: currentLinear, y: 0, z: 0 },
+        angular: { x: 0, y: 0, z: currentAngular }
+      }));
+    }, 1000 / PUBLISH_RATE_HZ);
+  </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="demo_bot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <gazebo reference="base_link">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+    <gravity>true</gravity>
+  </gazebo>
+  
+   <gazebo reference="wheel_lft_ft">
+    <surface>
+      <friction>
+        <ode>
+          <mu>1.0</mu>          <!-- Forward traction -->
+          <mu2>0.2</mu2>        <!-- Low sideways friction for smooth skid-steering -->
+          <fdir1>1 0 0</fdir1>  <!-- Specifies that mu1 aligns with the wheel's X-axis -->
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+  
+  <gazebo reference="wheel_lft_ft">
+    <surface>
+      <friction>
+        <ode>
+          <mu>1.0</mu>          <!-- Forward traction -->
+          <mu2>0.2</mu2>        <!-- Low sideways friction for smooth skid-steering -->
+          <fdir1>1 0 0</fdir1>  <!-- Specifies that mu1 aligns with the wheel's X-axis -->
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+  
+  <gazebo reference="lidar_joint">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <selfCollide>true</selfCollide>
+  </gazebo>
+  
+  <gazebo reference="wheel_rt_rr">
+    <surface>
+      <friction>
+        <ode>
+          <mu>1.0</mu>          <!-- Forward traction -->
+          <mu2>0.2</mu2>        <!-- Low sideways friction for smooth skid-steering -->
+          <fdir1>1 0 0</fdir1>
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+  
+  <gazebo reference="wheel_lft_rr">
+    <surface>
+      <friction>
+        <ode>
+          <mu>1.0</mu>          <!-- Forward traction -->
+          <mu2>0.2</mu2>        <!-- Low sideways friction for smooth skid-steering -->
+          <fdir1>1 0 0</fdir1>  <!-- Specifies that mu1 aligns with the wheel's X-axis -->
+        </ode>
+      </friction>
+    </surface>
+  </gazebo>
+  
+  
+
+</robot>

@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="bot_test" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="control/bot_test_ros2_control.xacro" />
+  <xacro:include filename="control/gazebo_sim_ros2_control.xacro" />
+  <xacro:include filename="bot_test.gazebo.xacro" />
+  <xacro:include filename="sensors/sensors.xacro" />
+
+
+  <material name="grey">
+    <color rgba="0.6 0.6 0.6 1.0" />
+  </material>
+  <material name="black">
+    <color rgba="0.1 0.1 0.1 1.0" />
+  </material>
+  <material name="orange">
+    <color rgba="1.0 0.5 0.0 1.0" />
+  </material>
+
+  <link name="base_link">
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="11.5764" />
+      <inertia ixx="0.043845" iyy="0.0916575" izz="0.125619" ixy="1.1434e-11" iyz="5.86356e-12" ixz="-0.000608556" />
+    </inertial>
+
+    <visual name="base_link_visual">
+      <origin xyz="0 0 0" rpy="1.6193436654219916e-15 1.9692645799468946e-15 -1.570796327" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/base_link.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="grey" />
+    </visual>
+
+    <collision name="base_link_collision">
+      <origin xyz="0 0 0" rpy="1.6193436654219916e-15 1.9692645799468946e-15 -1.570796327" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/base_link.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="lidar">
+    <inertial>
+      <origin xyz="3.93312e-09 -1.87576e-09 0.01" rpy="0 0 0" />
+      <mass value="0.152589" />
+      <inertia ixx="3.93978e-05" iyy="3.93978e-05" izz="6.86231e-05" ixy="4.46678e-22" iyz="-0" ixz="5.09828e-23" />
+    </inertial>
+
+    <visual name="lidar_visual">
+      <origin xyz="3.933119359089687e-09 -1.875757403846379e-09 0.009999995852512279" rpy="-3.5987481510461917e-16 5.551115123125733e-17 -1.9902448452435767e-15" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/lidar.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="black" />
+    </visual>
+
+    <collision name="lidar_collision">
+      <origin xyz="3.933119359089687e-09 -1.875757403846379e-09 0.009999995852512279" rpy="-3.5987481510461917e-16 5.551115123125733e-17 -1.9902448452435767e-15" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/lidar.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="wheel_lft_rr">
+    <inertial>
+      <origin xyz="-4.14749e-09 1.87576e-09 3.9143e-09" rpy="0 0 0" />
+      <mass value="0.406948" />
+      <inertia ixx="0.000277899" iyy="0.000528668" izz="0.000277899" ixy="-7.09703e-19" iyz="-5.21124e-22" ixz="-9.52911e-21" />
+    </inertial>
+
+    <visual name="wheel_lft_rr_visual">
+      <origin xyz="-4.147487189243293e-09 1.87575732724099e-09 3.93312038049487e-09" rpy="1.5707963267948994 -1.570796326794895 0" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/wheel_lft_rr.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="black" />
+    </visual>
+
+    <collision name="wheel_lft_rr_collision">
+      <origin xyz="-4.147487189243293e-09 1.87575732724099e-09 3.93312038049487e-09" rpy="1.5707963267948994 -1.570796326794895 0" />
+      <geometry>
+        <cylinder radius="0.05" length="0.02" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="wheel_rt_rr">
+    <inertial>
+      <origin xyz="-4.14749e-09 1.87576e-09 3.9143e-09" rpy="0 0 0" />
+      <mass value="0.406948" />
+      <inertia ixx="0.000277899" iyy="0.000528668" izz="0.000277899" ixy="3.17543e-19" iyz="5.21124e-22" ixz="9.52914e-21" />
+    </inertial>
+
+    <visual name="wheel_rt_rr_visual">
+      <origin xyz="-4.147487633332503e-09 1.875757540403811e-09 3.933120247268107e-09" rpy="-1.570796326794898 -1.5707963267948937 0" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/wheel_rt_rr.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="black" />
+    </visual>
+
+    <collision name="wheel_rt_rr_collision">
+      <origin xyz="-4.147487633332503e-09 1.875757540403811e-09 3.933120247268107e-09" rpy="-1.570796326794898 -1.5707963267948937 0" />
+      <geometry>
+        <cylinder radius="0.05" length="0.02" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="wheel_lft_ft">
+    <inertial>
+      <origin xyz="-4.14749e-09 1.87576e-09 3.9143e-09" rpy="0 0 0" />
+      <mass value="0.406948" />
+      <inertia ixx="0.000277899" iyy="0.000528668" izz="0.000277899" ixy="-5.42658e-19" iyz="-5.21124e-22" ixz="-9.52911e-21" />
+    </inertial>
+
+    <visual name="wheel_lft_ft_visual">
+      <origin xyz="-4.147486905026199e-09 1.8757573982952636e-09 3.933119563370724e-09" rpy="1.5707963267948988 -1.5707963267948952 0" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/wheel_lft_ft.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="black" />
+    </visual>
+
+    <collision name="wheel_lft_ft_collision">
+      <origin xyz="-4.147486905026199e-09 1.8757573982952636e-09 3.933119563370724e-09" rpy="1.5707963267948988 -1.5707963267948952 0" />
+      <geometry>
+        <cylinder radius="0.05" length="0.02" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="wheel_rt_ft">
+    <inertial>
+      <origin xyz="-4.14749e-09 1.87576e-09 3.9143e-09" rpy="0 0 0" />
+      <mass value="0.406948" />
+      <inertia ixx="0.000277899" iyy="0.000528668" izz="0.000277899" ixy="-3.1993e-19" iyz="-5.21124e-22" ixz="-9.5291e-21" />
+    </inertial>
+
+    <visual name="wheel_rt_ft_visual">
+      <origin xyz="-4.1474874024061134e-09 1.875757611458084e-09 3.933119367971472e-09" rpy="1.570796326794898 -1.5707963267948941 0" />
+      <geometry>
+        <mesh filename="file://$(find bot_test_description)/meshes/wheel_rt_ft.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="black" />
+    </visual>
+
+    <collision name="wheel_rt_ft_collision">
+      <origin xyz="-4.1474874024061134e-09 1.875757611458084e-09 3.933119367971472e-09" rpy="1.570796326794898 -1.5707963267948941 0" />
+      <geometry>
+        <cylinder radius="0.05" length="0.02" />
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="imu_link">
+    <inertial>
+      <origin xyz="0 0 0.035" rpy="0 0 0" />
+      <mass value="0.01" />
+      <inertia ixx="1e-6" iyy="1e-6" izz="1e-6" ixy="0" iyz="0" ixz="0" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.02 0.02 0.005" />
+      </geometry>
+      <material name="black" />
+    </visual>
+  </link>
+
+
+
+  <joint name="wheel_rt_ft_joint" type="continuous">
+    <origin xyz="0.06999999606688069 -0.11249999812424238 4.1474874024061134e-09" rpy="-1.5707963267948954 -1.5707963267948961 1.5707963267948961" />
+    <parent link="base_link" />
+    <child link="wheel_rt_ft" />
+    <axis xyz="-0.0 1.0 0.0" />
+  </joint>
+
+  <joint name="wheel_rt_rr_joint" type="continuous">
+    <origin xyz="-0.07000000393312028 -0.11249999812424247  4.147487633332503e-09" rpy="-1.5707963267948954 -1.5707963267948961 1.5707963267948961" />
+    <parent link="base_link" />
+    <child link="wheel_rt_rr" />
+    <axis xyz="-0.0 1.0 0.0" />
+  </joint>
+
+  <joint name="wheel_lft_rr_joint" type="continuous">
+    <origin xyz="-0.07000000393312053 0.11250000187575727 4.147487189243293e-09" rpy="-1.5707963267948954 -1.5707963267948961 1.5707963267948961" />
+    <parent link="base_link" />
+    <child link="wheel_lft_rr" />
+    <axis xyz="-0.0 1.0 0.0" />
+  </joint>
+
+  <joint name="wheel_lft_ft_joint" type="continuous">
+    <origin xyz="0.06999999606688044 0.11250000187575734 4.147486976080472e-09" rpy="-1.5707963267948954 -1.5707963267948961 1.5707963267948961" />
+    <parent link="base_link" />
+    <child link="wheel_lft_ft" />
+    <axis xyz="-0.0 1.0 0.0" />
+  </joint>
+
+  <joint name="lidar_joint" type="fixed">
+    <origin xyz="0.08999999606688071 1.8757574837824365e-09 0.05500000414748772" rpy="-1.9692645799468926e-15 1.619343665421992e-15 1.5707963267948972" />
+    <parent link="base_link" />
+    <child link="lidar" />
+    <axis xyz="3.944304526105059e-31 1.9721522630525295e-31 1.0" />
+  </joint>
+
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link" />
+    <child link="imu_link" />
+    <origin xyz="0 0 0.0358" rpy="0 0 0" />
+  </joint>
+
+
+</robot>
